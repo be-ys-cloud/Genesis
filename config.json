@@ -1,0 +1,12 @@
+{
+  "cache_time": "15s",
+  "hosts": [
+    {
+      "prometheusName": "name",
+      "endpoints": [
+        "https://endpointA/",
+        "https://endpointB/content"
+      ]
+    }
+  ]
+}
