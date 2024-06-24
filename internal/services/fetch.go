@@ -22,10 +22,8 @@ func fetch(service string, url string, headers map[string]string, extract map[st
 	}
 
 	// Add headers to http request
-	if len(headers) != 0 {
-		for header_key, header_value := range headers {
-			req.Header.Add(header_key, header_value)
-		}
+	for header_key, header_value := range headers {
+		req.Header.Add(header_key, header_value)
 	}
 	client := &http.Client{Timeout: 5 * time.Second}
 	res, err := client.Do(req)
