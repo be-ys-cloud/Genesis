@@ -3,8 +3,10 @@ package services
 import (
 	"bytes"
 	"context"
-	"github.com/be-ys/Genesis/internal/helpers"
 	"sync"
+
+	"github.com/be-ys/Genesis/internal/helpers"
+	"github.com/be-ys/Genesis/internal/structures"
 )
 
 func UpdateTargets(_ context.Context) {
@@ -13,12 +15,18 @@ func UpdateTargets(_ context.Context) {
 	var wg sync.WaitGroup
 
 	for _, host := range helpers.Configuration.Hosts {
-		for _, url := range host.Endpoints {
+		for _, endpoint := range host.Endpoints {
+			var extract map[string]structures.ExtractData
+			var format string
+			if endpoint.ExtractJson != nil {
+				extract = endpoint.ExtractJson
+				format = "json"
+			}
 			wg.Add(1)
-			go func(host string, url string) {
-				writer.Write([]byte(fetch(host, url)))
+			go func(host string, url string, headers map[string]string, extract map[string]structures.ExtractData, format string) {
+				writer.Write([]byte(fetch(host, url, headers, extract, format)))
 				wg.Done()
-			}(host.Name, url)
+			}(host.Name, endpoint.Name, endpoint.Headers, extract, format)
 		}
 	}
 
