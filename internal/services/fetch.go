@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"reflect"
 	"strconv"
 	"strings"
 	"time"
@@ -65,11 +66,22 @@ func extractData(writer *bytes.Buffer, service string, url string, body []byte, 
 			value, found := findValueInJson(result, fieldName)
 			if found {
 				mapField := extract[field]
-				keyValue, exists := mapField.Values[value.(string)]
-				if exists {
-					_, _ = fmt.Fprintf(writer, "genesis_http_request_field{service=\"%s\",url=\"%s\",field=\"%s\"} %d\n", service, url, field, keyValue)
+				if len(mapField.Values) == 0 {
+					switch valueType := value.(type) {
+					case float32:
+					case float64:
+						_, _ = fmt.Fprintf(writer, "genesis_http_request_field{service=\"%s\",url=\"%s\",field=\"%s\"} %f\n", service, url, field, value)
+					default:
+						logrus.Warningf("%s value is not a number (type: %s). Please add 'values' to your configuration", field, reflect.TypeOf(valueType).String())
+					}
 				} else {
-					logrus.Warningf("values do not contains %s for %s", value.(string), fieldName)
+					keyValue, exists := mapField.Values[value.(string)]
+					if exists {
+						_, _ = fmt.Fprintf(writer, "genesis_http_request_field{service=\"%s\",url=\"%s\",field=\"%s\"} %d\n", service, url, field, keyValue)
+					} else {
+						logrus.Warningf("values do not contains %s for %s", value.(string), fieldName)
+					}
+
 				}
 			} else {
 				logrus.Warningf("fieldname %s does not exist", fieldName)
