@@ -25,7 +25,7 @@ genesis_http_request_status{service="website",url="https://www.be-ys.com/ecosyst
 genesis_http_request_time{service="website",url="https://www.be-ys.com/ecosysteme-be-ys"} 0.087947
 genesis_http_request_status{service="serviceA",url="https://serviceA.local/"} 200
 genesis_http_request_time{service="serviceA",url="https://serviceA.local/"} 0.094947
-genesis_http_request_health.status{service="serviceA",url="https://serviceA.local/health"} 0
+genesis_http_request_field{service="serviceA",url="https://serviceA.local/health",field="status"} 0
 ```
 
 ## License
