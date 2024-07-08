@@ -20,6 +20,7 @@ func fetch(service string, url string, headers map[string]string, extract map[st
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		logrus.Errorf("Error trying to request %s: %s", url, err.Error())
+		return ""
 	}
 
 	// Add headers to http request
