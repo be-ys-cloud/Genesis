@@ -9,6 +9,17 @@ type Config struct {
 }
 
 type ConfigHosts struct {
-	Name      string   `json:"prometheusName"`
-	Endpoints []string `json:"endpoints"`
+	Name      string     `json:"prometheusName"`
+	Endpoints []Endpoint `json:"endpoints"`
+}
+
+type Endpoint struct {
+	Name        string                 `json:"name"`
+	Headers     map[string]string      `json:"headers"`
+	ExtractJson map[string]ExtractData `json:"extractJson"`
+}
+
+type ExtractData struct {
+	FieldName string         `json:"fieldName"`
+	Values    map[string]int `json:"values"`
 }

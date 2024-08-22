@@ -6,7 +6,7 @@ flexible system to ping various services, and export all these metrics in a read
 ## How does it work?
 
 The project is a Golang program, running a web server. The server exposes a `/metrics` endpoint on port 8080, who shows
-all ping time and HTTP status.
+all ping time, HTTP status and API results using the GET method.
 
 Cache time and endpoints could be easily configured in the `config.json` file.
 
@@ -25,6 +25,7 @@ genesis_http_request_status{service="website",url="https://www.be-ys.com/ecosyst
 genesis_http_request_time{service="website",url="https://www.be-ys.com/ecosysteme-be-ys"} 0.087947
 genesis_http_request_status{service="serviceA",url="https://serviceA.local/"} 200
 genesis_http_request_time{service="serviceA",url="https://serviceA.local/"} 0.094947
+genesis_http_request_field{service="serviceA",url="https://serviceA.local/health",field="status"} 0
 ```
 
 ## License

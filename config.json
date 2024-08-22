@@ -4,8 +4,29 @@
     {
       "prometheusName": "name",
       "endpoints": [
-        "https://endpointA/",
-        "https://endpointB/content"
+        {
+          "name": "https://endpointA/"
+        },
+        {
+          "name": "https://endpointA/health",
+          "headers": {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer XXXX"
+          },
+          "extractJson": {
+            "status": {
+              "fieldName": "status",
+              "values": {
+                "green": 0,
+                "yellow": 1,
+                "red": 2
+              }
+            }
+          }
+        },
+        {
+          "name":"https://endpointB/content"
+        }
       ]
     }
   ]
